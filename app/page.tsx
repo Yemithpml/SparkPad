@@ -29,7 +29,7 @@ export default function Home() {
 
         {/* Welcome */}
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold">
+          <h1 className="text-2xl md:text-3xl text-gray-900 font-bold">
             Welcome back! ✨
           </h1>
 
@@ -41,21 +41,8 @@ export default function Home() {
         {/* Thought Input */}
         <ThoughtInput addThought={addThought} />
 
-        {/* Search */}
-        <div className="relative mt-6 mb-8">
-          <Search
-            size={18}
-            className="absolute left-3 top-3 text-gray-400"
-          />
-
-          <input
-            placeholder="Search thoughts..."
-            className="w-full border rounded-xl py-3 pl-10 pr-4"
-          />
-        </div>
-
         {/* Recent Thoughts */}
-        <h2 className="font-semibold mb-4">
+        <h2 className="font-semibold mb-4 text-gray-800 mt-10">
           Recent Thoughts
         </h2>
 

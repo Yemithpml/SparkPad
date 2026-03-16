@@ -9,11 +9,11 @@ export default function ThoughtCard({ title, description, tag }: any) {
         className="absolute top-4 right-4 text-yellow-500"
       />
 
-      <span className="text-xs bg-white px-2 py-1 rounded">
+      <span className="text-xs bg-white px-2 py-1 rounded text-gray-600">
         {tag}
       </span>
 
-      <h3 className="font-semibold mt-3">
+      <h3 className="font-semibold text-gray-600 mt-3">
         {title}
       </h3>
 

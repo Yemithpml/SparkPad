@@ -40,7 +40,7 @@ export default function ThoughtInput({ addThought }: any) {
           placeholder="What's on your mind?"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full outline-none"
+          className="w-full outline-none text-gray-600 font-bold"
         />
       </div>
 
@@ -51,7 +51,7 @@ export default function ThoughtInput({ addThought }: any) {
             placeholder="Add more details... (optional)"
             value={details}
             onChange={(e) => setDetails(e.target.value)}
-            className="w-full border rounded-lg p-3 text-sm"
+            className="w-full border rounded-lg p-3 text-sm text-gray-500"
           />
 
           {/* Tags */}
