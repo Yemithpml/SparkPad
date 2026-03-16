@@ -1,61 +1,78 @@
+"use client"
+
+import { useState } from "react"
 import Sidebar from "@/components/SideBar"
-import ThoughtCard from "@/components/ThoughtCard"
 import ThoughtInput from "@/components/ThoughtInput"
+import ThoughtCard from "@/components/ThoughtCard"
+import { Search } from "lucide-react"
 
 export default function Home() {
+
+  const [thoughts, setThoughts] = useState<any[]>([])
+
+  const addThought = (thought: any) => {
+    setThoughts([thought, ...thoughts])
+  }
+
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex">
 
       <Sidebar />
 
-      <main className="flex-1 p-6 md:p-10">
+      <main
+        className="
+          flex-1 p-6 md:p-10 mt-14 md:mt-0 bg-gray-50 min-h-screen
+          md:ml-64
+        "
+      >
+        {/* md:ml-64 adds left margin equal to sidebar width on medium+ screens */}
 
-        {/* Welcome Section */}
+        {/* Welcome */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-2xl md:text-3xl font-bold">
             Welcome back! ✨
           </h1>
 
-          <p className="text-gray-500 mt-1">
+          <p className="text-gray-500 text-sm md:text-base">
             What's on your mind today?
           </p>
         </div>
 
         {/* Thought Input */}
-        <ThoughtInput />
+        <ThoughtInput addThought={addThought} />
 
         {/* Search */}
-        <input
-          type="text"
-          placeholder="Search thoughts..."
-          className="w-full border rounded-xl p-3 mb-8"
-        />
+        <div className="relative mt-6 mb-8">
+          <Search
+            size={18}
+            className="absolute left-3 top-3 text-gray-400"
+          />
+
+          <input
+            placeholder="Search thoughts..."
+            className="w-full border rounded-xl py-3 pl-10 pr-4"
+          />
+        </div>
 
         {/* Recent Thoughts */}
-        <h2 className="font-semibold text-lg mb-4">
+        <h2 className="font-semibold mb-4">
           Recent Thoughts
         </h2>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-          <ThoughtCard
-            title="Build a second brain app"
-            text="Create a productivity tool that helps capture random thoughts quickly."
-            tag="Idea"
-          />
-
-          <ThoughtCard
-            title="Learn React Server Components"
-            text="Deep dive into RSC architecture and streaming."
-            tag="Learning"
-          />
-
-          <ThoughtCard
-            title="Refactor API endpoints"
-            text="Optimize database queries and error handling."
-            tag="Coding"
-          />
-
+        <div className="
+          grid gap-6
+          sm:grid-cols-1
+          md:grid-cols-2
+          xl:grid-cols-3
+        ">
+          {thoughts.map((t, index) => (
+            <ThoughtCard
+              key={index}
+              title={t.title}
+              description={t.description}
+              tag={t.tag}
+            />
+          ))}
         </div>
 
       </main>

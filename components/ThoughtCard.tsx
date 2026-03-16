@@ -1,21 +1,27 @@
-export default function ThoughtCard({title, text, tag}:{title:string,text:string,tag:string}) {
+import { Star } from "lucide-react"
+
+export default function ThoughtCard({ title, description, tag }: any) {
   return (
-    <div className="bg-white rounded-xl p-5 shadow-sm border hover:shadow-md transition">
-      
-      <span className="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded">
+    <div className="bg-purple-50 border rounded-xl p-5 relative">
+
+      <Star
+        size={16}
+        className="absolute top-4 right-4 text-yellow-500"
+      />
+
+      <span className="text-xs bg-white px-2 py-1 rounded">
         {tag}
       </span>
 
-      <h3 className="font-semibold mt-3">{title}</h3>
+      <h3 className="font-semibold mt-3">
+        {title}
+      </h3>
 
-      <p className="text-gray-500 text-sm mt-2">
-        {text}
-      </p>
-
-      <p className="text-xs text-gray-400 mt-4">
-        Mar 8, 2026
+      <p className="text-sm text-gray-600 mt-2">
+        {description}
       </p>
 
     </div>
   )
 }
+
