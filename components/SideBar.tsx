@@ -72,11 +72,11 @@ export default function Sidebar() {
 
           {/* Desktop Logo */}
           <div className="hidden md:block">
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-xl text-gray-900 font-semibold">
               SparkPad
             </h2>
 
-            <p className="text-xs text-gray-400">
+            <p className="text-xs font-thin text-gray-400">
               Your second brain
             </p>
           </div>
