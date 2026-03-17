@@ -10,7 +10,34 @@ export default function Home() {
   const [thoughts, setThoughts] = useState<any[]>([])
 
   const addThought = (thought: any) => {
-    setThoughts([thought, ...thoughts])
+    setThoughts([
+      {
+        ...thought,
+        id: Date.now(),
+        favorite: false
+      },
+      ...thoughts
+    ])
+  }
+
+  const toggleFavorite = (id: number) => {
+    setThoughts(
+      thoughts.map((t) =>
+        t.id === id ? { ...t, favorite: !t.favorite } : t
+      )
+    )
+  }
+
+  const deleteThought = (id: number) => {
+    setThoughts(thoughts.filter((t) => t.id !== id))
+  }
+
+  const editThought = (id: number, updated: any) => {
+    setThoughts(
+      thoughts.map((t) =>
+        t.id === id ? { ...t, ...updated } : t
+      )
+    )
   }
 
   return (
@@ -24,12 +51,11 @@ export default function Home() {
           md:ml-64
         "
       >
-        {/* md:ml-64 adds left margin equal to sidebar width on medium+ screens */}
 
         {/* Welcome */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl text-gray-900 font-bold">
-            Welcome back! 
+            Welcome back!
           </h1>
 
           <p className="text-gray-500 text-sm md:text-base">
@@ -45,18 +71,26 @@ export default function Home() {
           Recent Thoughts
         </h2>
 
-        <div className="
+        <div
+          className="
           grid gap-6
           sm:grid-cols-1
           md:grid-cols-2
           xl:grid-cols-3
-        ">
-          {thoughts.map((t, index) => (
+        "
+        >
+          {thoughts.map((t) => (
             <ThoughtCard
-              key={index}
+              key={t.id}
+              id={t.id}
               title={t.title}
               description={t.description}
               tag={t.tag}
+              date={t.date}
+              favorite={t.favorite}
+              toggleFavorite={toggleFavorite}
+              deleteThought={deleteThought}
+              editThought={editThought}
             />
           ))}
         </div>
