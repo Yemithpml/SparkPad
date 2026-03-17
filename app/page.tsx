@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Sidebar from "@/components/SideBar"
 import ThoughtInput from "@/components/ThoughtInput"
 import ThoughtCard from "@/components/ThoughtCard"
@@ -8,6 +8,23 @@ import ThoughtCard from "@/components/ThoughtCard"
 export default function Home() {
 
   const [thoughts, setThoughts] = useState<any[]>([])
+
+  // Load thoughts from localStorage
+  useEffect(() => {
+    const savedThoughts = localStorage.getItem("sparkpad-thoughts")
+
+    if (savedThoughts) {
+      setThoughts(JSON.parse(savedThoughts))
+    }
+  }, [])
+
+  // Save thoughts whenever they change
+  useEffect(() => {
+    localStorage.setItem(
+      "sparkpad-thoughts",
+      JSON.stringify(thoughts)
+    )
+  }, [thoughts])
 
   const addThought = (thought: any) => {
     setThoughts([
@@ -41,6 +58,7 @@ export default function Home() {
   }
 
   return (
+    
     <div className="flex">
 
       <Sidebar />
@@ -52,7 +70,6 @@ export default function Home() {
         "
       >
 
-        {/* Welcome */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl text-gray-900 font-bold">
             Welcome back!
@@ -63,10 +80,8 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Thought Input */}
         <ThoughtInput addThought={addThought} />
 
-        {/* Recent Thoughts */}
         <h2 className="font-semibold mb-4 text-gray-800 mt-10">
           Recent Thoughts
         </h2>
