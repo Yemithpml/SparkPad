@@ -89,7 +89,7 @@ export default function Sidebar() {
 
             <Link
               href="/"
-              className="flex items-center gap-3 bg-purple-100 text-purple-600 px-4 py-3 mt-10 rounded-lg"
+              className="flex items-center gap-3 bg-blue-100 text-blue-600 px-4 py-3 mt-10 rounded-lg"
             >
               <LayoutDashboard size={18} />
               Dashboard

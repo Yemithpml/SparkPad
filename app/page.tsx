@@ -4,7 +4,6 @@ import { useState } from "react"
 import Sidebar from "@/components/SideBar"
 import ThoughtInput from "@/components/ThoughtInput"
 import ThoughtCard from "@/components/ThoughtCard"
-import { Search } from "lucide-react"
 
 export default function Home() {
 
@@ -30,7 +29,7 @@ export default function Home() {
         {/* Welcome */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl text-gray-900 font-bold">
-            Welcome back! ✨
+            Welcome back! 
           </h1>
 
           <p className="text-gray-500 text-sm md:text-base">

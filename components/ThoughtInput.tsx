@@ -10,7 +10,16 @@ export default function ThoughtInput({ addThought }: any) {
   const [details, setDetails] = useState("")
   const [tag, setTag] = useState("Idea")
 
-  const tags = ["Idea", "Coding", "Personal", "Learning", "Business"]
+  const tags = ["Idea", "Thought", "Personal", "Learning", "Business", "Random"]
+
+  const tagColors: any = {
+    Idea: "bg-blue-100 text-blue-700 border-blue-300",
+    Thought: "bg-yellow-100 text-yellow-700 border-yellow-300",
+    Personal: "bg-pink-100 text-pink-700 border-pink-300",
+    Learning: "bg-green-100 text-green-700 border-green-300",
+    Business: "bg-purple-100 text-purple-700 border-purple-300",
+    Random: "bg-orange-100 text-orange-700 border-orange-300"
+  }
 
   const handleAdd = () => {
     if (!title) return
@@ -34,13 +43,13 @@ export default function ThoughtInput({ addThought }: any) {
         onClick={() => setOpen(true)}
         className="flex items-center gap-3 cursor-text"
       >
-        <Sparkles className="text-purple-500" size={18} />
+        <Sparkles className="text-blue-500" size={18} />
 
         <input
           placeholder="What's on your mind?"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full outline-none text-gray-600 font-bold"
+          className="w-full outline-none text-gray-700 font-medium"
         />
       </div>
 
@@ -51,7 +60,7 @@ export default function ThoughtInput({ addThought }: any) {
             placeholder="Add more details... (optional)"
             value={details}
             onChange={(e) => setDetails(e.target.value)}
-            className="w-full border rounded-lg p-3 text-sm text-gray-500"
+            className="w-full border rounded-lg p-3 text-sm text-gray-600"
           />
 
           {/* Tags */}
@@ -60,10 +69,10 @@ export default function ThoughtInput({ addThought }: any) {
               <button
                 key={t}
                 onClick={() => setTag(t)}
-                className={`px-3 py-1 rounded-full text-sm border ${
+                className={`px-3 py-1 rounded-full text-sm border transition ${
                   tag === t
-                    ? "bg-purple-100 text-purple-600"
-                    : "bg-gray-50"
+                    ? tagColors[t]
+                    : "bg-gray-50 text-gray-600 border-gray-200"
                 }`}
               >
                 {t}
@@ -82,10 +91,10 @@ export default function ThoughtInput({ addThought }: any) {
 
             <button
               onClick={handleAdd}
-              className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-lg"
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-900 text-white px-4 py-2 rounded-lg"
             >
-              <Plus size={16} />
-              Add Thought
+              <Plus size={26} />
+              
             </button>
 
           </div>
