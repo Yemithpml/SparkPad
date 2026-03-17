@@ -60,7 +60,7 @@ export default function ThoughtInput({ addThought }: any) {
             placeholder="Add more details... (optional)"
             value={details}
             onChange={(e) => setDetails(e.target.value)}
-            className="w-full border rounded-lg p-3 text-sm text-gray-600"
+            className="w-full border border-gray-300 focus:border-blue-500 focus:outline-none rounded-lg p-3 text-sm text-gray-600"
           />
 
           {/* Tags */}

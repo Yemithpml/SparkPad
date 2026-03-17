@@ -2,6 +2,8 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+
 import {
   LayoutDashboard,
   Lightbulb,
@@ -15,18 +17,45 @@ import {
 export default function Sidebar() {
 
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+
+  const navItems = [
+    {
+      name: "Dashboard",
+      href: "/",
+      icon: LayoutDashboard
+    },
+    {
+      name: "All Thoughts",
+      href: "/all-thoughts",
+      icon: Lightbulb
+    },
+    {
+      name: "Favorites",
+      href: "/favorites",
+      icon: Star
+    },
+    {
+      name: "Tags",
+      href: "/tags",
+      icon: Tag
+    },
+    {
+      name: "Analytics",
+      href: "/analytics",
+      icon: BarChart3
+    }
+  ]
 
   return (
     <>
       {/* Mobile Navbar */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b flex items-center px-4 gap-3 z-50">
 
-        {/* Hamburger */}
         <button onClick={() => setOpen(true)}>
           <Menu size={22} className="text-gray-700" />
         </button>
 
-        {/* Logo */}
         <h2 className="text-lg text-gray-900 font-semibold">
           SparkPad
         </h2>
@@ -52,10 +81,10 @@ export default function Sidebar() {
         `}
       >
 
-        {/* Top Section */}
+        {/* Top */}
         <div className="p-5">
 
-          {/* Mobile Close */}
+          {/* Mobile close */}
           <div className="flex justify-between items-center md:hidden mb-4">
 
             <h2 className="text-lg text-gray-900 font-semibold">
@@ -81,51 +110,34 @@ export default function Sidebar() {
             </p>
           </div>
 
-          {/* Divider */}
           <hr className="my-4" />
 
           {/* Navigation */}
           <nav className="space-y-1">
 
-            <Link
-              href="/"
-              className="flex items-center gap-3 bg-blue-100 text-blue-600 px-4 py-3 mt-10 rounded-lg"
-            >
-              <LayoutDashboard size={18} />
-              Dashboard
-            </Link>
+            {navItems.map((item) => {
 
-            <Link
-              href="/all-thoughts"
-              className="flex items-center gap-3 text-gray-700 hover:bg-gray-100 px-4 py-3 mt-2 rounded-lg"
-            >
-              <Lightbulb size={18} />
-              All Thoughts
-            </Link>
+              const Icon = item.icon
+              const active = pathname === item.href
 
-            <Link
-              href="/favorites"
-              className="flex items-center gap-3 text-gray-700 hover:bg-gray-100 px-4 py-3 mt-2 rounded-lg"
-            >
-              <Star size={18} />
-              Favorites
-            </Link>
-
-            <Link
-              href="/tags"
-              className="flex items-center gap-3 text-gray-700 hover:bg-gray-100 px-4 py-3 mt-2 rounded-lg"
-            >
-              <Tag size={18} />
-              Tags
-            </Link>
-
-            <Link
-              href="/analytics"
-              className="flex items-center gap-3 text-gray-700 hover:bg-gray-100 px-4 py-3 mt-2 rounded-lg"
-            >
-              <BarChart3 size={18} />
-              Analytics
-            </Link>
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`
+                    flex items-center gap-3 px-4 py-3 rounded-lg transition
+                    ${
+                      active
+                        ? "bg-blue-100 text-blue-600 mt-5"
+                        : "text-gray-700 hover:bg-gray-100 mt-5"
+                    }
+                  `}
+                >
+                  <Icon size={18} />
+                  {item.name}
+                </Link>
+              )
+            })}
 
           </nav>
 
@@ -142,13 +154,9 @@ export default function Sidebar() {
 
             <p className="text-xs text-gray-600">
               Press
-              <kbd className="px-1.5 py-0.5 bg-white rounded border mx-1">
-                ⌘
-              </kbd>
+              <kbd className="px-1.5 py-0.5 bg-white rounded border mx-1">⌘</kbd>
               +
-              <kbd className="px-1.5 py-0.5 bg-white rounded border mx-1">
-                K
-              </kbd>
+              <kbd className="px-1.5 py-0.5 bg-white rounded border mx-1">K</kbd>
               to quickly capture thoughts
             </p>
 

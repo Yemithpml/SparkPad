@@ -5,60 +5,83 @@ import Sidebar from "@/components/SideBar"
 import ThoughtInput from "@/components/ThoughtInput"
 import ThoughtCard from "@/components/ThoughtCard"
 
+type Thought = {
+  id: number
+  title: string
+  description: string
+  tag: string
+  date: string
+  favorite: boolean
+}
+
 export default function Home() {
 
-  const [thoughts, setThoughts] = useState<any[]>([])
+  const [thoughts, setThoughts] = useState<Thought[]>([])
+  const [loaded, setLoaded] = useState(false)
 
-  // Load thoughts from localStorage
+  // Load thoughts
   useEffect(() => {
-    const savedThoughts = localStorage.getItem("sparkpad-thoughts")
+    const saved = localStorage.getItem("sparkpad-thoughts")
 
-    if (savedThoughts) {
-      setThoughts(JSON.parse(savedThoughts))
+    if (saved) {
+      setThoughts(JSON.parse(saved))
     }
+
+    setLoaded(true)
   }, [])
 
-  // Save thoughts whenever they change
+  // Persist thoughts
   useEffect(() => {
+    if (!loaded) return
+
     localStorage.setItem(
       "sparkpad-thoughts",
       JSON.stringify(thoughts)
     )
-  }, [thoughts])
+  }, [thoughts, loaded])
+
 
   const addThought = (thought: any) => {
-    setThoughts([
-      {
-        ...thought,
-        id: Date.now(),
-        favorite: false
-      },
-      ...thoughts
-    ])
+
+    if (!thought.title.trim()) return
+
+    const newThought: Thought = {
+      id: Date.now(),
+      title: thought.title,
+      description: thought.description,
+      tag: thought.tag,
+      date: new Date().toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      }),
+      favorite: false
+    }
+
+    setThoughts((prev) => [newThought, ...prev])
   }
 
   const toggleFavorite = (id: number) => {
-    setThoughts(
-      thoughts.map((t) =>
+    setThoughts((prev) =>
+      prev.map((t) =>
         t.id === id ? { ...t, favorite: !t.favorite } : t
       )
     )
   }
 
   const deleteThought = (id: number) => {
-    setThoughts(thoughts.filter((t) => t.id !== id))
+    setThoughts((prev) => prev.filter((t) => t.id !== id))
   }
 
-  const editThought = (id: number, updated: any) => {
-    setThoughts(
-      thoughts.map((t) =>
+  const editThought = (id: number, updated: Partial<Thought>) => {
+    setThoughts((prev) =>
+      prev.map((t) =>
         t.id === id ? { ...t, ...updated } : t
       )
     )
   }
 
   return (
-    
     <div className="flex">
 
       <Sidebar />
