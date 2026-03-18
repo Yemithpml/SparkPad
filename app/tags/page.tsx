@@ -99,7 +99,7 @@ export default function TagsPage() {
               key={tag}
               onClick={() => setFilter(tag)}
               className={`
-                px-4 py-1.5 rounded-full text-sm font-medium border transition-all duration-200
+                px-4 py-2 rounded-2xl text-sm font-medium border transition-all duration-200
                 ${
                   filter === tag
                     ? tagButtonStyles[tag]
