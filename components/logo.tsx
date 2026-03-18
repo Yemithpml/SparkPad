@@ -15,10 +15,7 @@ export default function Logo({
 }: LogoProps) {
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {/* BrainCog Icon */}
       <BrainCog size={size} color="#000000" />
-
-      {/* Text */}
       {text && (
         <span className="font-bold text-xl text-black">
           {text}
