@@ -3,6 +3,8 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import Logo from "@/components/Logo"
+
 
 import {
   LayoutDashboard,
@@ -56,9 +58,11 @@ export default function Sidebar() {
           <Menu size={22} className="text-gray-700" />
         </button>
 
-        <h2 className="text-lg text-gray-900 font-semibold">
-          SparkPad
-        </h2>
+        <div className="flex items-center gap-2">
+          <Logo size={24} text="" /> 
+          <span className="text-lg text-gray-900 font-semibold">SparkPad</span>
+        </div>
+
 
       </div>
 
@@ -87,9 +91,11 @@ export default function Sidebar() {
           {/* Mobile close */}
           <div className="flex justify-between items-center md:hidden mb-4">
 
-            <h2 className="text-lg text-gray-900 font-semibold">
-              SparkPad
-            </h2>
+           <div className="flex items-center gap-2">
+              <Logo size={24} text="" /> 
+              <span className="text-lg text-gray-900 font-semibold">SparkPad</span>
+           </div>
+
 
             <X
               size={20}
@@ -100,15 +106,16 @@ export default function Sidebar() {
           </div>
 
           {/* Desktop Logo */}
-          <div className="hidden md:block">
-            <h2 className="text-xl text-gray-900 font-semibold">
-              SparkPad
-            </h2>
-
-            <p className="text-xs font-thin text-gray-400">
+        <div className="hidden md:block">
+            <div className="flex items-center gap-2">
+              <Logo size={28} text="" />
+              <span className="text-xl text-gray-900 font-semibold">SparkPad</span>
+            </div>
+           <p className="text-xs font-thin text-gray-400 mt-1">
               Your second brain
-            </p>
-          </div>
+           </p>
+
+        </div>
 
           <hr className="my-4" />
 
