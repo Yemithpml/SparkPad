@@ -62,12 +62,12 @@ export default function ThoughtCard({
           <input
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
-            className="w-full border rounded p-2 text-sm"
+            className="w-full border rounded p-2 text-gray-600 text-sm"
           />
           <textarea
             value={newDesc}
             onChange={(e) => setNewDesc(e.target.value)}
-            className="w-full border rounded p-2 text-sm"
+            className="w-full border rounded p-2 text-gray-600 text-sm"
           />
           <button
             onClick={saveEdit}
