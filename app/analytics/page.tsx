@@ -12,6 +12,13 @@ import {
   Cell
 } from "recharts"
 
+import {
+  BarChart3,
+  Star,
+  Calendar,
+  Tag
+} from "lucide-react"
+
 type Thought = {
   id: number
   title: string
@@ -35,7 +42,6 @@ export default function AnalyticsPage() {
   const [thoughts, setThoughts] = useState<Thought[]>([])
   const [loaded, setLoaded] = useState(false)
 
-  // ✅ FIX: Properly load data
   useEffect(() => {
     const saved = localStorage.getItem("sparkpad-thoughts")
 
@@ -50,16 +56,13 @@ export default function AnalyticsPage() {
     setLoaded(true)
   }, [])
 
-  // 🚨 Prevent hydration issues
   if (!loaded) return null
 
   // 📊 Stats
   const total = thoughts.length
   const favorites = thoughts.filter(t => t.favorite).length
   const categories = [...new Set(thoughts.map(t => t.tag))].length
-
-  // ⚠️ FIX: This week calculation (basic)
-  const thisWeek = thoughts.length // (you can improve later)
+  const thisWeek = thoughts.length
 
   // 📊 Category Count
   const categoryCount: Record<string, number> = {}
@@ -88,18 +91,18 @@ export default function AnalyticsPage() {
         </p>
 
         {/* ✅ Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 text-gray-900 gap-4 mb-8">
-
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <StatCard title="Total Thoughts" value={total} color="blue" />
           <StatCard title="Favorites" value={favorites} color="yellow" />
           <StatCard title="This Week" value={thisWeek} color="purple" />
           <StatCard title="Categories" value={categories} color="green" />
-
         </div>
 
-        {/* ✅ Bar Chart ONLY */}
-        <div className="bg-white rounded-xl p-5 border mb-8">
-          <h3 className="mb-4 font-semibold text-gray-800">Category Breakdown</h3>
+        {/* ✅ Bar Chart */}
+        <div className="bg-white rounded-xl p-5 mb-8">
+          <h3 className="mb-4 font-semibold text-gray-800">
+            Category Breakdown
+          </h3>
 
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={categoryData}>
@@ -120,7 +123,7 @@ export default function AnalyticsPage() {
           {categoryData.map((c, i) => (
             <div
               key={i}
-              className="rounded-xl p-4 border text-sm"
+              className="rounded-xl p-4 border text-sm relative"
               style={{
                 backgroundColor: COLORS[c.name] + "20",
                 borderColor: COLORS[c.name]
@@ -129,7 +132,14 @@ export default function AnalyticsPage() {
               <p className="font-medium" style={{ color: COLORS[c.name] }}>
                 {c.name}
               </p>
-              <p className="text-lg font-bold">{c.value}</p>
+
+              {/* Background number (colored, more visible) */}
+              <span
+                className="absolute bottom-2 right-3 text-4xl md:text-5xl font-extrabold opacity-60"
+                style={{ color: COLORS[c.name] }}
+              >
+                {c.value}
+              </span>
             </div>
           ))}
         </div>
@@ -141,18 +151,53 @@ export default function AnalyticsPage() {
 
 // ✅ Stat Card
 function StatCard({ title, value, color }: any) {
-  const colors: any = {
-    purple: "bg-purple-100 text-purple-700",
-    yellow: "bg-yellow-100 text-yellow-700",
-    blue: "bg-blue-100 text-blue-700",
-    green: "bg-green-100 text-green-700"
+
+  const styles: any = {
+    purple: {
+      bg: "bg-purple-100",
+      text: "text-purple-600",
+      icon: <BarChart3 size={18} />
+    },
+    yellow: {
+      bg: "bg-yellow-100",
+      text: "text-yellow-600",
+      icon: <Star size={18} />
+    },
+    blue: {
+      bg: "bg-blue-100",
+      text: "text-blue-600",
+      icon: <Calendar size={18} />
+    },
+    green: {
+      bg: "bg-green-100",
+      text: "text-green-600",
+      icon: <Tag size={18} />
+    }
   }
 
+  const current = styles[color]
+
   return (
-    <div className="bg-white rounded-xl p-4 border flex flex-col gap-2">
-      <div className={`w-10 h-10 rounded-lg ${colors[color]}`} />
+    <div className="bg-white rounded-xl p-4 flex flex-col gap-3 relative overflow-hidden">
+
+      {/* Icon */}
+      <div
+        className={`w-10 h-10 rounded-lg flex items-center justify-center ${current.bg} ${current.text}`}
+      >
+        {current.icon}
+      </div>
+
+      {/* Title */}
       <p className="text-sm text-gray-500">{title}</p>
-      <h2 className="text-xl font-bold">{value}</h2>
+
+      {/* Background number (colored, more visible) */}
+      <span
+        className="absolute bottom-2 right-3 text-4xl md:text-5xl font-extrabold opacity-60"
+        style={{ color: current.text.replace("text-", "").replace(/-/g, "") ? "" : "" }}
+      >
+        {value}
+      </span>
+
     </div>
   )
 }
