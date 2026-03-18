@@ -23,12 +23,12 @@ type Thought = {
 
 // 🎨 Tag Colors
 const COLORS: Record<string, string> = {
-  Idea: "#a855f7",
-  Thoughts: "#3b82f6",
+  Idea: "#417af3",
+  Thoughts: "#cfff20",
   Personal: "#ec4899",
   Learning: "#22c55e",
-  Business: "#f97316",
-  Random: "#6b7280"
+  Business: "#de16f9",
+  Random: "#fc7310"
 }
 
 export default function AnalyticsPage() {
@@ -88,18 +88,18 @@ export default function AnalyticsPage() {
         </p>
 
         {/* ✅ Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 text-gray-900 gap-4 mb-8">
 
-          <StatCard title="Total Thoughts" value={total} color="purple" />
+          <StatCard title="Total Thoughts" value={total} color="blue" />
           <StatCard title="Favorites" value={favorites} color="yellow" />
-          <StatCard title="This Week" value={thisWeek} color="blue" />
+          <StatCard title="This Week" value={thisWeek} color="purple" />
           <StatCard title="Categories" value={categories} color="green" />
 
         </div>
 
         {/* ✅ Bar Chart ONLY */}
         <div className="bg-white rounded-xl p-5 border mb-8">
-          <h3 className="mb-4 font-semibold">Category Breakdown</h3>
+          <h3 className="mb-4 font-semibold text-gray-800">Category Breakdown</h3>
 
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={categoryData}>
