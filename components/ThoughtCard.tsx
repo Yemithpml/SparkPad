@@ -1,7 +1,31 @@
-"use client"
+import { Star, Calendar } from "lucide-react"
 
-import { Star, Calendar, Pencil, Trash2 } from "lucide-react"
-import { useState } from "react"
+const tagStyles: Record<string, any> = {
+  Idea: {
+    card: "bg-blue-50 border-blue-200",
+    tag: "bg-blue-100 text-blue-600"
+  },
+  Thought: {
+    card: "bg-yellow-50 border-yellow-200",
+    tag: "bg-yellow-100 text-yellow-600"
+  },
+  Personal: {
+    card: "bg-pink-50 border-pink-200",
+    tag: "bg-pink-100 text-pink-600"
+  },
+  Learning: {
+    card: "bg-green-50 border-green-200",
+    tag: "bg-green-100 text-green-600"
+  },
+  Business: {
+    card: "bg-purple-50 border-purple-200",
+    tag: "bg-purple-100 text-purple-600"
+  },
+    Random: {
+    card: "bg-orange-50 border-orange-200",
+    tag: "bg-orange-100 text-orange-600"
+  }
+}
 
 export default function ThoughtCard({
   id,
@@ -10,113 +34,54 @@ export default function ThoughtCard({
   tag,
   date,
   favorite,
-  toggleFavorite,
-  deleteThought,
-  editThought
+  toggleFavorite
 }: any) {
 
-  const [editing, setEditing] = useState(false)
-  const [newTitle, setNewTitle] = useState(title)
-  const [newDesc, setNewDesc] = useState(description)
-
-  const tagColors: any = {
-    Idea: "bg-blue-100 text-blue-700",
-    Thought: "bg-yellow-100 text-yellow-700",
-    Personal: "bg-pink-100 text-pink-700",
-    Learning: "bg-green-100 text-green-700",
-    Business: "bg-purple-100 text-purple-700",
-    Random : "bg-orange-100 text-orange-700"
-  }
-
-  const saveEdit = () => {
-    editThought(id, {
-      title: newTitle,
-      description: newDesc
-    })
-    setEditing(false)
-  }
+  const style = tagStyles[tag] || tagStyles["Idea"]
 
   return (
-    <div className="bg-white border rounded-xl p-5 relative shadow-sm hover:shadow-md transition">
+    <div
+      className={`
+        relative rounded-2xl p-5 border
+        ${style.card}
+        hover:shadow-md transition
+      `}
+    >
 
-      {/* Favorite */}
+      {/* Star */}
       <Star
         size={18}
         onClick={() => toggleFavorite(id)}
-        className={`absolute top-4 right-4 cursor-pointer ${
-          favorite ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
-        }`}
+        className={`
+          absolute top-4 right-4 cursor-pointer
+          ${favorite ? "text-yellow-500 fill-yellow-400" : "text-gray-400"}
+        `}
       />
 
       {/* Tag */}
       <span
-        className={`text-xs px-3 py-1 rounded-full font-medium ${
-          tagColors[tag] || "bg-gray-100 text-gray-600"
-        }`}
+        className={`
+          text-xs px-3 py-1 rounded-full font-medium
+          ${style.tag}
+        `}
       >
         {tag}
       </span>
 
-      {/* Edit Mode */}
-      {editing ? (
-        <div className="mt-3 space-y-2">
+      {/* Title */}
+      <h3 className="mt-3 font-semibold text-gray-900">
+        {title}
+      </h3>
 
-          <input
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            className="w-full border rounded p-2 text-sm"
-          />
+      {/* Description */}
+      <p className="text-sm text-gray-600 mt-2 leading-relaxed">
+        {description}
+      </p>
 
-          <textarea
-            value={newDesc}
-            onChange={(e) => setNewDesc(e.target.value)}
-            className="w-full border rounded p-2 text-sm"
-          />
-
-          <button
-            onClick={saveEdit}
-            className="text-xs bg-blue-900 text-white px-3 py-1 rounded"
-          >
-            Save
-          </button>
-
-        </div>
-      ) : (
-        <>
-          <h3 className="font-semibold text-gray-800 mt-3">
-            {title}
-          </h3>
-
-          <p className="text-sm text-gray-500 mt-2">
-            {description}
-          </p>
-        </>
-      )}
-
-      {/* Bottom Section */}
-      <div className="flex items-center justify-between mt-5 text-xs text-gray-400">
-
-        <div className="flex items-center gap-2">
-          <Calendar size={14} />
-          <span>{date}</span>
-        </div>
-
-        <div className="flex items-center gap-3">
-
-          <Pencil
-            size={15}
-            className="cursor-pointer hover:text-blue-500"
-            onClick={() => setEditing(!editing)}
-          />
-
-          <Trash2
-            size={15}
-            className="cursor-pointer hover:text-red-500"
-            onClick={() => deleteThought(id)}
-          />
-
-        </div>
-
+      {/* Date */}
+      <div className="flex items-center gap-2 text-xs text-gray-500 mt-4">
+        <Calendar size={14} />
+        {date}
       </div>
 
     </div>

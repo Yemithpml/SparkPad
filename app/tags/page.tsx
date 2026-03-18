@@ -14,7 +14,7 @@ type Thought = {
   favorite: boolean
 }
 
-const TAGS = ["Idea", "Coding", "Personal", "Learning", "Business"]
+const TAGS = ["Idea", "Thoughts", "Personal", "Learning", "Business", "Random"]
 
 export default function TagsPage() {
   const [thoughts, setThoughts] = useState<Thought[]>([])
@@ -80,9 +80,9 @@ export default function TagsPage() {
             <button
               key={tag}
               onClick={() => setFilter(tag)}
-              className={`px-4 py-1 rounded-full font-medium ${
+              className={`px-4 py-1 rounded-2xl font-medium ${
                 filter === tag
-                  ? "bg-gray-900 text-white"
+                  ? "bg-blue-900 text-white"
                   : "bg-gray-200 text-gray-700"
               }`}
             >
