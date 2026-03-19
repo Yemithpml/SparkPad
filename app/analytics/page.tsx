@@ -38,6 +38,13 @@ const COLORS: Record<string, string> = {
   Random: "#fc7310"
 }
 
+// Helper: get start of current week (Sunday)
+function getStartOfWeek(date: Date) {
+  const day = date.getDay(); // 0 = Sunday
+  const diff = date.getDate() - day;
+  return new Date(date.setDate(diff));
+}
+
 export default function AnalyticsPage() {
   const [thoughts, setThoughts] = useState<Thought[]>([])
   const [loaded, setLoaded] = useState(false)
@@ -62,11 +69,16 @@ export default function AnalyticsPage() {
   const total = thoughts.length
   const favorites = thoughts.filter(t => t.favorite).length
   const categories = [...new Set(thoughts.map(t => t.tag))].length
-  const thisWeek = thoughts.length
+
+  const now = new Date()
+  const startOfWeek = getStartOfWeek(new Date())
+  const thisWeek = thoughts.filter(t => {
+    const thoughtDate = new Date(t.date)
+    return thoughtDate >= startOfWeek && thoughtDate <= now
+  }).length
 
   // 📊 Category Count
   const categoryCount: Record<string, number> = {}
-
   thoughts.forEach(t => {
     categoryCount[t.tag] = (categoryCount[t.tag] || 0) + 1
   })
@@ -133,9 +145,9 @@ export default function AnalyticsPage() {
                 {c.name}
               </p>
 
-              {/* Background number (colored, more visible) */}
+              {/* Background number */}
               <span
-                className="absolute bottom-2 right-3 text-4xl md:text-5xl font-extrabold opacity-60"
+                className="absolute bottom-2 right-3 text-4xl md:text-5xl font-extrabold opacity-80"
                 style={{ color: COLORS[c.name] }}
               >
                 {c.value}
@@ -150,8 +162,7 @@ export default function AnalyticsPage() {
 }
 
 // ✅ Stat Card
-function StatCard({ title, value, color }: any) {
-
+function StatCard({ title, value, color }: { title: string; value: number; color: string }) {
   const styles: any = {
     purple: {
       bg: "bg-purple-100",
@@ -179,7 +190,6 @@ function StatCard({ title, value, color }: any) {
 
   return (
     <div className="bg-white rounded-xl p-4 flex flex-col gap-3 relative overflow-hidden">
-
       {/* Icon */}
       <div
         className={`w-10 h-10 rounded-lg flex items-center justify-center ${current.bg} ${current.text}`}
@@ -190,14 +200,12 @@ function StatCard({ title, value, color }: any) {
       {/* Title */}
       <p className="text-sm text-gray-500">{title}</p>
 
-      {/* Background number (colored, more visible) */}
+      {/* Background number */}
       <span
-        className="absolute bottom-2 right-3 text-4xl md:text-5xl font-extrabold opacity-60"
-        style={{ color: current.text.replace("text-", "").replace(/-/g, "") ? "" : "" }}
+        className={`absolute bottom-2 right-3 text-4xl md:text-5xl font-extrabold opacity-80 ${current.text}`}
       >
         {value}
       </span>
-
     </div>
   )
 }
