@@ -130,32 +130,6 @@ export default function AnalyticsPage() {
           </ResponsiveContainer>
         </div>
 
-        {/* ✅ Category Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {categoryData.map((c, i) => (
-            <div
-              key={i}
-              className="rounded-xl p-4 border text-sm relative"
-              style={{
-                backgroundColor: COLORS[c.name] + "20",
-                borderColor: COLORS[c.name]
-              }}
-            >
-              <p className="font-medium" style={{ color: COLORS[c.name] }}>
-                {c.name}
-              </p>
-
-              {/* Background number */}
-              <span
-                className="absolute bottom-2 right-3 text-4xl md:text-5xl font-extrabold opacity-80"
-                style={{ color: COLORS[c.name] }}
-              >
-                {c.value}
-              </span>
-            </div>
-          ))}
-        </div>
-
       </main>
     </div>
   )
