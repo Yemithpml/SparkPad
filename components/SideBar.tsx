@@ -3,7 +3,8 @@
 import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import Logo from "./Logo"
+import Logo from "@/components/Logo"
+
 
 
 
