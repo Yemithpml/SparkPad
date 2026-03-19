@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import Sidebar from "@/components/SideBar"
 import ThoughtInput from "@/components/ThoughtInput"
 import ThoughtCard from "@/components/ThoughtCard"
@@ -18,8 +19,9 @@ export default function Home() {
 
   const [thoughts, setThoughts] = useState<Thought[]>([])
   const [loaded, setLoaded] = useState(false)
+  const [limit, setLimit] = useState(6) // ✅ NEW
 
-  // Load thoughts
+  // ✅ Load thoughts
   useEffect(() => {
     const saved = localStorage.getItem("sparkpad-thoughts")
 
@@ -30,7 +32,7 @@ export default function Home() {
     setLoaded(true)
   }, [])
 
-  // Persist thoughts
+  // ✅ Persist thoughts
   useEffect(() => {
     if (!loaded) return
 
@@ -40,6 +42,21 @@ export default function Home() {
     )
   }, [thoughts, loaded])
 
+  // ✅ Responsive limit (mobile vs desktop)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setLimit(4) // mobile + tablet
+      } else {
+        setLimit(6) // desktop
+      }
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   const addThought = (thought: any) => {
 
@@ -93,6 +110,7 @@ export default function Home() {
         "
       >
 
+        {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl text-gray-900 font-bold">
             Welcome back!
@@ -103,11 +121,23 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Input */}
         <ThoughtInput addThought={addThought} />
 
-        <h2 className="font-semibold mb-4 text-gray-800 mt-10">
-          Recent Thoughts
-        </h2>
+        {/* Recent */}
+        <div className="flex items-center justify-between mt-10 mb-4">
+  <h2 className="font-semibold text-gray-800">
+    Recent Thoughts
+  </h2>
+
+  <Link
+    href="/all-thoughts"
+    className="text-sm text-blue-600 hover:underline font-bold"
+  >
+    View All 
+  </Link>
+</div>
+
 
         <div
           className="
@@ -117,7 +147,7 @@ export default function Home() {
           xl:grid-cols-3
         "
         >
-          {thoughts.map((t) => (
+          {thoughts.slice(0, limit).map((t) => (
             <ThoughtCard
               key={t.id}
               id={t.id}
