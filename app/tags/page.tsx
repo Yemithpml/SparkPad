@@ -13,12 +13,12 @@ type Thought = {
   favorite: boolean
 }
 
-const TAGS = ["Idea", "Thoughts", "Personal", "Learning", "Business", "Random"]
+const TAGS = ["Idea", "Thought", "Personal", "Learning", "Business", "Random"]
 
 // 🎨 Tag button colors
 const tagButtonStyles: Record<string, string> = {
   Idea: "bg-blue-100 text-blue-700 border-blue-200",
-  Thoughts: "bg-yellow-100 text-yellow-700 border-yellow-200",
+  Thought: "bg-yellow-100 text-yellow-700 border-yellow-200",
   Personal: "bg-pink-100 text-pink-700 border-pink-200",
   Learning: "bg-green-100 text-green-700 border-green-200",
   Business: "bg-purple-100 text-purple-700 border-purple-200",
