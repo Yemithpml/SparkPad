@@ -152,7 +152,6 @@ export default function ThoughtCard({
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition transform hover:scale-105 ${style.button}`}
               >
                 <Trash2 size={16} />
-                Delete
               </button>
 
               <button
