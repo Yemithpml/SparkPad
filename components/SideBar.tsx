@@ -111,7 +111,7 @@ export default function Sidebar() {
         <div className="hidden md:block">
             <div className="flex items-center gap-2">
               <Logo size={28} text="" />
-              <span className="text-xl text-gray-900 font-bold">SparkPad</span>
+              <span className="text-xl text-gray-900 font-semibold">SparkPad</span>
             </div>
            <p className="text-sm font-md text-gray-500 mt-1">
               Your second brain
