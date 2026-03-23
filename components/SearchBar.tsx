@@ -27,17 +27,24 @@ export default function SearchBar({ onSearch }: any) {
 
       {/* Input */}
       <input
-        type="text"
-        value={query}
-        onChange={(e) => handleChange(e.target.value)}
-        placeholder="Search thoughts..."
-        className="
-          w-full pl-10 pr-10 py-2.5
-          rounded-xl border bg-white
-          text-sm text-gray-700
-          focus:outline-none focus:ring-2 focus:ring-blue-500
-        "
-      />
+  type="text"
+  value={query}
+  onChange={(e) => handleChange(e.target.value)}
+  placeholder="Search thoughts..."
+  className="
+    w-full 
+    sm:max-w-md 
+    md:max-w-lg 
+    lg:max-w-2xl
+    pl-10 pr-10 py-3
+    rounded-xl bg-white
+    text-sm text-gray-900
+    outline-none focus:outline-none
+    focus:ring-2 focus:ring-blue-500
+    transition
+  "
+/>
+
 
       {/* Clear Button */}
       {query && (
