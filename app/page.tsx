@@ -16,17 +16,23 @@ type Thought = {
 }
 
 export default function Home() {
-
   const [thoughts, setThoughts] = useState<Thought[]>([])
   const [loaded, setLoaded] = useState(false)
-  const [limit, setLimit] = useState(6) // ✅ NEW
+  const [limit, setLimit] = useState(6)
+  const [isFirstVisit, setIsFirstVisit] = useState(false) 
 
-  // ✅ Load thoughts
+  // ✅ Load thoughts + check first visit
   useEffect(() => {
     const saved = localStorage.getItem("sparkpad-thoughts")
+    const visited = localStorage.getItem("sparkpad-visited")
 
     if (saved) {
       setThoughts(JSON.parse(saved))
+    }
+
+    if (!visited) {
+      setIsFirstVisit(true)
+      localStorage.setItem("sparkpad-visited", "true")
     }
 
     setLoaded(true)
@@ -35,31 +41,25 @@ export default function Home() {
   // ✅ Persist thoughts
   useEffect(() => {
     if (!loaded) return
-
-    localStorage.setItem(
-      "sparkpad-thoughts",
-      JSON.stringify(thoughts)
-    )
+    localStorage.setItem("sparkpad-thoughts", JSON.stringify(thoughts))
   }, [thoughts, loaded])
 
-  // ✅ Responsive limit (mobile vs desktop)
+  // ✅ Responsive limit
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setLimit(4) // mobile + tablet
+        setLimit(4)
       } else {
-        setLimit(6) // desktop
+        setLimit(6)
       }
     }
 
     handleResize()
     window.addEventListener("resize", handleResize)
-
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
   const addThought = (thought: any) => {
-
     if (!thought.title.trim()) return
 
     const newThought: Thought = {
@@ -80,9 +80,7 @@ export default function Home() {
 
   const toggleFavorite = (id: number) => {
     setThoughts((prev) =>
-      prev.map((t) =>
-        t.id === id ? { ...t, favorite: !t.favorite } : t
-      )
+      prev.map((t) => (t.id === id ? { ...t, favorite: !t.favorite } : t))
     )
   }
 
@@ -92,15 +90,12 @@ export default function Home() {
 
   const editThought = (id: number, updated: Partial<Thought>) => {
     setThoughts((prev) =>
-      prev.map((t) =>
-        t.id === id ? { ...t, ...updated } : t
-      )
+      prev.map((t) => (t.id === id ? { ...t, ...updated } : t))
     )
   }
 
   return (
     <div className="flex">
-
       <Sidebar />
 
       <main
@@ -109,15 +104,16 @@ export default function Home() {
           md:ml-64
         "
       >
-
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl text-gray-900 font-bold">
-            Welcome back!
+            {isFirstVisit ? "Welcome to SparkPad!" : "Welcome back!"}
           </h1>
 
           <p className="text-gray-500 text-sm md:text-base">
-            What's on your mind today?
+            {isFirstVisit
+              ? "Your Second Brain. What's on your mind?"
+              : "What's on your mind today?"}
           </p>
         </div>
 
@@ -126,26 +122,22 @@ export default function Home() {
 
         {/* Recent */}
         <div className="flex items-center justify-between mt-10 mb-4">
-  <h2 className="font-semibold text-gray-800">
-    Recent Thoughts
-  </h2>
-
-  <Link
-    href="/all-thoughts"
-    className="text-sm text-blue-600 hover:underline font-bold"
-  >
-    View All 
-  </Link>
-</div>
-
+          <h2 className="font-semibold text-gray-800">Recent Thoughts</h2>
+          <Link
+            href="/all-thoughts"
+            className="text-sm text-blue-600 hover:underline font-bold"
+          >
+            View All
+          </Link>
+        </div>
 
         <div
           className="
-          grid gap-6
-          sm:grid-cols-1
-          md:grid-cols-2
-          xl:grid-cols-3
-        "
+            grid gap-6
+            sm:grid-cols-1
+            md:grid-cols-2
+            xl:grid-cols-3
+          "
         >
           {thoughts.slice(0, limit).map((t) => (
             <ThoughtCard
@@ -162,9 +154,7 @@ export default function Home() {
             />
           ))}
         </div>
-
       </main>
-
     </div>
   )
 }
