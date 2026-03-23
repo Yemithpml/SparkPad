@@ -111,9 +111,9 @@ export default function Sidebar() {
         <div className="hidden md:block">
             <div className="flex items-center gap-2">
               <Logo size={28} text="" />
-              <span className="text-xl text-gray-900 font-semibold">SparkPad</span>
+              <span className="text-xl text-gray-900 font-bold">SparkPad</span>
             </div>
-           <p className="text-xs font-thin text-gray-400 mt-1">
+           <p className="text-sm font-md text-gray-500 mt-1">
               Your second brain
            </p>
 
@@ -122,7 +122,7 @@ export default function Sidebar() {
           <hr className="my-4" />
 
           {/* Navigation */}
-          <nav className="space-y-1">
+          <nav className="space-y-1 font-semibold">
 
             {navItems.map((item) => {
 
@@ -149,27 +149,6 @@ export default function Sidebar() {
             })}
 
           </nav>
-
-        </div>
-
-        {/* Quick Tip */}
-        <div className="p-5 border-t">
-
-          <div className="bg-purple-50 rounded-lg p-4">
-
-            <p className="text-sm font-medium mb-1">
-              💡 Quick Tip
-            </p>
-
-            <p className="text-xs text-gray-600">
-              Press
-              <kbd className="px-1.5 py-0.5 bg-white rounded border mx-1">⌘</kbd>
-              +
-              <kbd className="px-1.5 py-0.5 bg-white rounded border mx-1">K</kbd>
-              to quickly capture thoughts
-            </p>
-
-          </div>
 
         </div>
 
