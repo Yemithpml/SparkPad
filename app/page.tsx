@@ -50,7 +50,7 @@ export default function Home() {
       if (window.innerWidth < 768) {
         setLimit(2)
       } else {
-        setLimit(5)
+        setLimit(6)
       }
     }
 
