@@ -48,9 +48,9 @@ export default function Home() {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setLimit(4)
+        setLimit(2)
       } else {
-        setLimit(6)
+        setLimit(5)
       }
     }
 
