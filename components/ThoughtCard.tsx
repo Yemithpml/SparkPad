@@ -15,6 +15,7 @@ export default function ThoughtCard({
   editThought
 }: any) {
 
+  // States
   const [open, setOpen] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
@@ -22,7 +23,7 @@ export default function ThoughtCard({
   const [newTitle, setNewTitle] = useState(title)
   const [newDesc, setNewDesc] = useState(description)
 
-  // 🎨 Tag Colors
+  // Tag Colors
   const tagColors: any = {
     Idea: {
       card: "bg-blue-50",
@@ -63,7 +64,7 @@ export default function ThoughtCard({
       title: newTitle,
       description: newDesc
     })
-    setToast("Saved successfully ✅")
+    setToast("Saved successfully!")
     setOpen(false)
   }
 
@@ -74,7 +75,7 @@ export default function ThoughtCard({
     setOpen(false)
   }
 
-  // ⏳ Auto hide toast
+  // Toast Limit
   useEffect(() => {
     if (!toast) return
     const timer = setTimeout(() => setToast(null), 2000)
@@ -83,7 +84,7 @@ export default function ThoughtCard({
 
   return (
     <>
-      {/* CARD */}
+      {/* Cards */}
       <div
         onClick={() => setOpen(true)}
         className={`rounded-2xl p-5 border ${style.card} relative hover:shadow-md transition cursor-pointer`}
@@ -92,7 +93,7 @@ export default function ThoughtCard({
         <Star
           size={18}
           onClick={(e) => {
-            e.stopPropagation()
+            e.stopPropagation() //prevents modal from opening
             toggleFavorite(id)
           }}
           className={`absolute top-4 right-4 cursor-pointer transition ${
