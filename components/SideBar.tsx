@@ -150,6 +150,10 @@ export default function Sidebar() {
 
           </nav>
 
+          <Link href="/login">
+  <button className="text-black mt-20">Log In</button>
+</Link>
+
         </div>
 
       </aside>
