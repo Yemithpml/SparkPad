@@ -87,7 +87,6 @@ export default function Sidebar() {
         `}
       >
 
-        {/* Top */}
         <div className="p-5">
 
           {/* Mobile close */}
@@ -151,7 +150,10 @@ export default function Sidebar() {
           </nav>
 
           <Link href="/login">
-  <button className="text-black mt-20">Log In</button>
+  <button className={`
+                    flex items-center gap-3 px-4 py-3 rounded-lg transition mt-30
+                    "bg-blue-100 text-blue-600 mt-5"
+                  `}>Log In</button>
 </Link>
 
         </div>
