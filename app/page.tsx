@@ -12,7 +12,7 @@ export default function Home() {
   const [limit, setLimit] = useState(6)
   const [isFirstVisit, setIsFirstVisit] = useState(false)
 
-  // ✅ Check first visit (this one's fine to keep in localStorage — it's not note data, just a UI flag)
+  // Check first visit (this one's fine to keep in localStorage — it's not note data, just a UI flag)
   useEffect(() => {
     const visited = localStorage.getItem("sparkpad-visited")
     if (!visited) {
@@ -21,7 +21,7 @@ export default function Home() {
     }
   }, [])
 
-  // ✅ Responsive limit
+  // Responsive limit
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {

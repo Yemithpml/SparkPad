@@ -29,7 +29,7 @@ type Thought = {
   favorite: boolean
 }
 
-// 🎨 Tag Colors
+// Tag Colors
 const COLORS: Record<string, string> = {
   Idea: "#417af3",
   Thoughts: "#cfff20",
@@ -50,7 +50,7 @@ export default function AnalyticsPage() {
 
   const { thoughts, addThought, updateThought, deleteThought } = useThoughts()
 
-  // 📊 Stats
+  // Stats
   const total = thoughts.length
   const favorites = thoughts.filter(t => t.favorite).length
   const categories = [...new Set(thoughts.map(t => t.tag))].length
@@ -62,7 +62,7 @@ export default function AnalyticsPage() {
     return thoughtDate >= startOfWeek && thoughtDate <= now
   }).length
 
-  // 📊 Category Count
+  // category Count
   const categoryCount: Record<string, number> = {}
   thoughts.forEach(t => {
     categoryCount[t.tag] = (categoryCount[t.tag] || 0) + 1
@@ -87,7 +87,7 @@ export default function AnalyticsPage() {
           Insights into your thought patterns
         </p>
 
-        {/* ✅ Stats */}
+        {/*  Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <StatCard title="Total Thoughts" value={total} color="blue" />
           <StatCard title="Favorites" value={favorites} color="yellow" />
@@ -95,7 +95,7 @@ export default function AnalyticsPage() {
           <StatCard title="Categories" value={categories} color="green" />
         </div>
 
-        {/* ✅ Bar Chart */}
+        {/*  Bar Chart */}
         <div className="bg-white rounded-xl p-5 mb-8">
           <h3 className="mb-4 font-semibold text-gray-800">
             Category Breakdown
@@ -120,7 +120,7 @@ export default function AnalyticsPage() {
   )
 }
 
-// ✅ Stat Card
+// Stat Card
 function StatCard({ title, value, color }: { title: string; value: number; color: string }) {
   const styles: any = {
     purple: {
@@ -156,10 +156,9 @@ function StatCard({ title, value, color }: { title: string; value: number; color
         {current.icon}
       </div>
 
-      {/* Title */}
       <p className="text-sm text-gray-500">{title}</p>
 
-      {/* Background number */}
+
       <span
         className={`absolute bottom-2 right-3 text-4xl md:text-5xl font-extrabold opacity-80 ${current.text}`}
       >

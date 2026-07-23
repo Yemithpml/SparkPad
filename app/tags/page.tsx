@@ -7,7 +7,7 @@ import { useThoughts } from "@/lib/ThoughtContext"
 
 const TAGS = ["Idea", "Thought", "Personal", "Learning", "Business", "Random"]
 
-// 🎨 Tag button colors
+// Tag button colors
 const tagButtonStyles: Record<string, string> = {
   Idea: "bg-blue-100 text-blue-700 border-blue-200",
   Thought: "bg-yellow-100 text-yellow-700 border-yellow-200",

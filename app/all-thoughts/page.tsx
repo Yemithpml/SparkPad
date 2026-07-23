@@ -10,18 +10,18 @@ export default function AllThoughtsPage() {
   const { thoughts, loading, updateThought, deleteThought } = useThoughts()
   const [search, setSearch] = useState("")
 
-  // ⭐ Toggle favorite
+  // Toggle favorite
   const toggleFavorite = (id: number) => {
     const t = thoughts.find((t) => t.id === id)
     if (t) updateThought(id, { favorite: !t.favorite })
   }
 
-  // ✏️ Edit
+  //  Edit
   const editThought = (id: number, updated: Partial<typeof thoughts[0]>) => {
     updateThought(id, updated)
   }
 
-  // 🔍 SEARCH FILTER
+  //  SEARCH FILTER
   const filteredThoughts = thoughts.filter(t =>
     t.title.toLowerCase().includes(search.toLowerCase()) ||
     t.description.toLowerCase().includes(search.toLowerCase()) ||
@@ -46,17 +46,17 @@ export default function AllThoughtsPage() {
           </p>
         </div>
 
-        {/* 🔍 Search */}
+        {/* Search */}
         <div className="mb-6">
           <SearchBar onSearch={setSearch} />
         </div>
 
-        {/* 📊 Count */}
+        {/* Count */}
         <p className="text-sm text-gray-500 mb-4">
           Showing {filteredThoughts.length} of {thoughts.length} thoughts
         </p>
 
-        {/* 🧠 Thoughts Grid */}
+        {/* Thoughts Grid */}
         {filteredThoughts.length === 0 ? (
           <p className="text-gray-400 text-sm mt-10">
             No thoughts found.
