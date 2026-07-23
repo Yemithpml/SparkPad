@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Sidebar from "@/components/SideBar"
-import { useThoughts } from '@/lib/ThoughtsContext'
+import { useThoughts } from '@/lib/ThoughtContext'
 import {
   BarChart,
   Bar,

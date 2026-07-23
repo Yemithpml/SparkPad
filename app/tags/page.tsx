@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Sidebar from "@/components/SideBar"
 import ThoughtCard from "@/components/ThoughtCard"
+import { useThoughts } from "@/lib/ThoughtContext"
 
 type Thought = {
   id: number
@@ -25,43 +26,13 @@ const tagButtonStyles: Record<string, string> = {
   Random: "bg-orange-200 text-orange-700 border-orange-300"
 }
 
-export default function TagsPage() {
-  const [thoughts, setThoughts] = useState<Thought[]>([])
-  const [filter, setFilter] = useState<string | "All">("All")
-  const [loaded, setLoaded] = useState(false)
+const { thoughts, updateThought } = useThoughts()
+const [filter, setFilter] = useState<string | "All">("All")
 
-  // Load from localStorage
-  useEffect(() => {
-    const saved = localStorage.getItem("sparkpad-thoughts")
-    if (saved) setThoughts(JSON.parse(saved))
-    setLoaded(true)
-  }, [])
-
-  // Save to localStorage
-  useEffect(() => {
-    if (!loaded) return
-    localStorage.setItem("sparkpad-thoughts", JSON.stringify(thoughts))
-  }, [thoughts, loaded])
-
-  // Toggle favorite
-  const toggleFavorite = (id: number) => {
-    setThoughts(prev =>
-      prev.map(t =>
-        t.id === id ? { ...t, favorite: !t.favorite } : t
-      )
-    )
-  }
-
-  // Filter logic
-  const displayedThoughts =
-    filter === "All"
-      ? thoughts
-      : thoughts.filter(t => t.tag === filter)
-
-  // Count per tag
-  const getCount = (tag: string) =>
-    thoughts.filter(t => t.tag === tag).length
-
+const toggleFavorite = (id: number) => {
+  const t = thoughts.find((t) => t.id === id)
+  if (t) updateThought(id, { favorite: !t.favorite })
+}
   return (
     <div className="flex">
       <Sidebar />

@@ -1,56 +1,18 @@
 "use client"
-
-import { useEffect, useState } from "react"
 import Sidebar from "@/components/SideBar"
 import ThoughtCard from "@/components/ThoughtCard"
+import { useThoughts } from "@/lib/ThoughtContext"
 
 export default function Favorites() {
-
-  const [thoughts, setThoughts] = useState<any[]>([])
-
-  useEffect(() => {
-    const saved = localStorage.getItem("sparkpad-thoughts")
-
-    if (saved) {
-      setThoughts(JSON.parse(saved))
-    }
-  }, [])
+  const { thoughts, updateThought, deleteThought } = useThoughts()
 
   const toggleFavorite = (id: number) => {
-    const updated = thoughts.map((t) =>
-      t.id === id ? { ...t, favorite: !t.favorite } : t
-    )
-
-    setThoughts(updated)
-
-    localStorage.setItem(
-      "sparkpad-thoughts",
-      JSON.stringify(updated)
-    )
-  }
-
-  const deleteThought = (id: number) => {
-    const updated = thoughts.filter((t) => t.id !== id)
-
-    setThoughts(updated)
-
-    localStorage.setItem(
-      "sparkpad-thoughts",
-      JSON.stringify(updated)
-    )
+    const t = thoughts.find((t) => t.id === id)
+    if (t) updateThought(id, { favorite: !t.favorite })
   }
 
   const editThought = (id: number, updatedData: any) => {
-    const updated = thoughts.map((t) =>
-      t.id === id ? { ...t, ...updatedData } : t
-    )
-
-    setThoughts(updated)
-
-    localStorage.setItem(
-      "sparkpad-thoughts",
-      JSON.stringify(updated)
-    )
+    updateThought(id, updatedData)
   }
 
   const favoriteThoughts = thoughts.filter((t) => t.favorite)
