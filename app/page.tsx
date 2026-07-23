@@ -5,44 +5,21 @@ import Link from "next/link"
 import Sidebar from "@/components/SideBar"
 import ThoughtInput from "@/components/ThoughtInput"
 import ThoughtCard from "@/components/ThoughtCard"
-
-type Thought = {
-  id: number
-  title: string
-  description: string
-  tag: string
-  date: string
-  favorite: boolean
-}
+import { useThoughts } from "@/lib/ThoughtContext"
 
 export default function Home() {
-  const [thoughts, setThoughts] = useState<Thought[]>([])
-  const [loaded, setLoaded] = useState(false)
+  const { thoughts, loading, addThought: addThoughtToDb, updateThought, deleteThought } = useThoughts()
   const [limit, setLimit] = useState(6)
-  const [isFirstVisit, setIsFirstVisit] = useState(false) 
+  const [isFirstVisit, setIsFirstVisit] = useState(false)
 
-  // ✅ Load thoughts + check first visit
+  // ✅ Check first visit (this one's fine to keep in localStorage — it's not note data, just a UI flag)
   useEffect(() => {
-    const saved = localStorage.getItem("sparkpad-thoughts")
     const visited = localStorage.getItem("sparkpad-visited")
-
-    if (saved) {
-      setThoughts(JSON.parse(saved))
-    }
-
     if (!visited) {
       setIsFirstVisit(true)
       localStorage.setItem("sparkpad-visited", "true")
     }
-
-    setLoaded(true)
   }, [])
-
-  // ✅ Persist thoughts
-  useEffect(() => {
-    if (!loaded) return
-    localStorage.setItem("sparkpad-thoughts", JSON.stringify(thoughts))
-  }, [thoughts, loaded])
 
   // ✅ Responsive limit
   useEffect(() => {
@@ -62,8 +39,7 @@ export default function Home() {
   const addThought = (thought: any) => {
     if (!thought.title.trim()) return
 
-    const newThought: Thought = {
-      id: Date.now(),
+    addThoughtToDb({
       title: thought.title,
       description: thought.description,
       tag: thought.tag,
@@ -73,26 +49,19 @@ export default function Home() {
         year: "numeric"
       }),
       favorite: false
-    }
-
-    setThoughts((prev) => [newThought, ...prev])
+    })
   }
 
   const toggleFavorite = (id: number) => {
-    setThoughts((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, favorite: !t.favorite } : t))
-    )
+    const t = thoughts.find((t) => t.id === id)
+    if (t) updateThought(id, { favorite: !t.favorite })
   }
 
-  const deleteThought = (id: number) => {
-    setThoughts((prev) => prev.filter((t) => t.id !== id))
+  const editThought = (id: number, updated: Partial<typeof thoughts[0]>) => {
+    updateThought(id, updated)
   }
 
-  const editThought = (id: number, updated: Partial<Thought>) => {
-    setThoughts((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, ...updated } : t))
-    )
-  }
+  if (loading) return null
 
   return (
     <div className="flex">

@@ -1,58 +1,24 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Sidebar from "@/components/SideBar"
 import ThoughtCard from "@/components/ThoughtCard"
 import SearchBar from "@/components/SearchBar"
-
-type Thought = {
-  id: number
-  title: string
-  description: string
-  tag: string
-  date: string
-  favorite: boolean
-}
+import { useThoughts } from "@/lib/ThoughtContext"
 
 export default function AllThoughtsPage() {
-  const [thoughts, setThoughts] = useState<Thought[]>([])
+  const { thoughts, loading, updateThought, deleteThought } = useThoughts()
   const [search, setSearch] = useState("")
-  const [loaded, setLoaded] = useState(false)
-
-  // ✅ Load thoughts
-  useEffect(() => {
-    const saved = localStorage.getItem("sparkpad-thoughts")
-    if (saved) setThoughts(JSON.parse(saved))
-    setLoaded(true)
-  }, [])
-
-  // ✅ Persist
-  useEffect(() => {
-    if (!loaded) return
-    localStorage.setItem("sparkpad-thoughts", JSON.stringify(thoughts))
-  }, [thoughts, loaded])
 
   // ⭐ Toggle favorite
   const toggleFavorite = (id: number) => {
-    setThoughts(prev =>
-      prev.map(t =>
-        t.id === id ? { ...t, favorite: !t.favorite } : t
-      )
-    )
-  }
-
-  // 🗑️ Delete
-  const deleteThought = (id: number) => {
-    setThoughts(prev => prev.filter(t => t.id !== id))
+    const t = thoughts.find((t) => t.id === id)
+    if (t) updateThought(id, { favorite: !t.favorite })
   }
 
   // ✏️ Edit
-  const editThought = (id: number, updated: Partial<Thought>) => {
-    setThoughts(prev =>
-      prev.map(t =>
-        t.id === id ? { ...t, ...updated } : t
-      )
-    )
+  const editThought = (id: number, updated: Partial<typeof thoughts[0]>) => {
+    updateThought(id, updated)
   }
 
   // 🔍 SEARCH FILTER
@@ -62,7 +28,7 @@ export default function AllThoughtsPage() {
     t.tag.toLowerCase().includes(search.toLowerCase())
   )
 
-  if (!loaded) return null
+  if (loading) return null
 
   return (
     <div className="flex">
