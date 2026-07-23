@@ -42,7 +42,7 @@ export function ThoughtsProvider({ children }: { children: React.ReactNode }) {
       .select('*')
       .order('date', { ascending: false })
 
-    if (error) console.error(error)
+    if (error) console.error('Supabase error:', error.message, error.details, error.hint)
     else setThoughts(data as Thought[])
     setLoading(false)
   }
@@ -61,7 +61,7 @@ export function ThoughtsProvider({ children }: { children: React.ReactNode }) {
       .insert([{ ...thought, user_id: user?.id }])
       .select()
 
-    if (error) console.error(error)
+    if (error) console.error('Supabase insert error:', error.message, error.details, error.hint)
     else if (data) setThoughts((prev) => [data[0] as Thought, ...prev])
   }
 

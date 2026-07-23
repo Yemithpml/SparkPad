@@ -1,18 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Sidebar from "@/components/SideBar"
 import ThoughtCard from "@/components/ThoughtCard"
 import { useThoughts } from "@/lib/ThoughtContext"
-
-type Thought = {
-  id: number
-  title: string
-  description: string
-  tag: string
-  date: string
-  favorite: boolean
-}
 
 const TAGS = ["Idea", "Thought", "Personal", "Learning", "Business", "Random"]
 
@@ -26,13 +17,25 @@ const tagButtonStyles: Record<string, string> = {
   Random: "bg-orange-200 text-orange-700 border-orange-300"
 }
 
-const { thoughts, updateThought } = useThoughts()
-const [filter, setFilter] = useState<string | "All">("All")
+export default function TagsPage() {
+  const { thoughts, updateThought } = useThoughts()
+  const [filter, setFilter] = useState<string | "All">("All")
 
-const toggleFavorite = (id: number) => {
-  const t = thoughts.find((t) => t.id === id)
-  if (t) updateThought(id, { favorite: !t.favorite })
-}
+  const toggleFavorite = (id: number) => {
+    const t = thoughts.find((t) => t.id === id)
+    if (t) updateThought(id, { favorite: !t.favorite })
+  }
+
+  // Filter logic
+  const displayedThoughts =
+    filter === "All"
+      ? thoughts
+      : thoughts.filter(t => t.tag === filter)
+
+  // Count per tag
+  const getCount = (tag: string) =>
+    thoughts.filter(t => t.tag === tag).length
+
   return (
     <div className="flex">
       <Sidebar />
