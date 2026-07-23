@@ -23,8 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
         <AuthProvider>
-          {children}
-        </AuthProvider>
+  <ThoughtsProvider>
+    {children}
+  </ThoughtsProvider>
+</AuthProvider>
       </body>
     </html>
   );
