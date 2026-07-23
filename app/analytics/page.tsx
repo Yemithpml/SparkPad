@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Sidebar from "@/components/SideBar"
+import { useThoughts } from '@/lib/ThoughtsContext'
 import {
   BarChart,
   Bar,
@@ -46,24 +47,8 @@ function getStartOfWeek(date: Date) {
 }
 
 export default function AnalyticsPage() {
-  const [thoughts, setThoughts] = useState<Thought[]>([])
-  const [loaded, setLoaded] = useState(false)
 
-  useEffect(() => {
-    const saved = localStorage.getItem("sparkpad-thoughts")
-
-    if (saved) {
-      try {
-        setThoughts(JSON.parse(saved))
-      } catch {
-        setThoughts([])
-      }
-    }
-
-    setLoaded(true)
-  }, [])
-
-  if (!loaded) return null
+  const { thoughts, addThought, updateThought, deleteThought } = useThoughts()
 
   // 📊 Stats
   const total = thoughts.length
