@@ -6,20 +6,25 @@ import Sidebar from "@/components/SideBar"
 import ThoughtInput from "@/components/ThoughtInput"
 import ThoughtCard from "@/components/ThoughtCard"
 import { useThoughts } from "@/lib/ThoughtContext"
+import { useAuth } from "@/lib/AuthContext"
 
 export default function Home() {
+  const { user } = useAuth()
   const { thoughts, loading, addThought: addThoughtToDb, updateThought, deleteThought } = useThoughts()
   const [limit, setLimit] = useState(6)
-  const [isFirstVisit, setIsFirstVisit] = useState(false)
+  const [authError, setAuthError] = useState(false)
 
   // Check first visit (this one's fine to keep in localStorage — it's not note data, just a UI flag)
-  useEffect(() => {
+  const [isFirstVisit] = useState(() => {
+    if (typeof window === "undefined") return false
+
     const visited = localStorage.getItem("sparkpad-visited")
     if (!visited) {
-      setIsFirstVisit(true)
       localStorage.setItem("sparkpad-visited", "true")
+      return true
     }
-  }, [])
+    return false
+  })
 
   // Responsive limit
   useEffect(() => {
@@ -38,6 +43,13 @@ export default function Home() {
 
   const addThought = (thought: any) => {
     if (!thought.title.trim()) return
+
+    if (!user) {
+      setAuthError(true)
+      return
+    }
+
+    setAuthError(false)
 
     addThoughtToDb({
       title: thought.title,
@@ -88,6 +100,17 @@ export default function Home() {
 
         {/* Input */}
         <ThoughtInput addThought={addThought} />
+
+        {/* Auth error message — only shows if they tried adding while logged out */}
+        {authError && (
+          <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mt-3">
+            Please{" "}
+            <Link href="/login" className="font-semibold underline">
+              log in
+            </Link>{" "}
+            to save your thoughts.
+          </div>
+        )}
 
         {/* Recent */}
         <div className="flex items-center justify-between mt-10 mb-4">
