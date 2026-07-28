@@ -14,7 +14,7 @@ export default function Home() {
   const [limit, setLimit] = useState(6)
   const [authError, setAuthError] = useState(false)
 
-  // Check first visit (this one's fine to keep in localStorage — it's not note data, just a UI flag)
+  // Check first visit 
   const [isFirstVisit] = useState(() => {
     if (typeof window === "undefined") return false
 
