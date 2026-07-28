@@ -4,6 +4,8 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import Logo from "@/components/Logo"
+import { useAuth } from "@/lib/AuthContext"
+import { supabase } from "@/lib/supabase"
 
 
 
@@ -16,13 +18,15 @@ import {
   BarChart3,
   Menu,
   X,
-  User
+  User,
+  LogOut
 } from "lucide-react"
 
 export default function Sidebar() {
 
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const { user } = useAuth()
 
   const navItems = [
     {
@@ -49,11 +53,6 @@ export default function Sidebar() {
       name: "Analytics",
       href: "/analytics",
       icon: BarChart3
-    },
-    {
-      name: "Login",
-      href: "/login",
-      icon: User
     }
   ]
 
@@ -155,6 +154,27 @@ export default function Sidebar() {
 
           </nav>
 
+        </div>
+
+        {/* Auth section */}
+        <div className="p-5 border-t">
+          {user ? (
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition w-full"
+            >
+              <LogOut size={18} />
+              Sign Out
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
+            >
+              <User size={18} />
+              Log In
+            </Link>
+          )}
         </div>
 
       </aside>
