@@ -169,7 +169,7 @@ export default function Sidebar() {
           ) : (
             <Link
               href="/login"
-              className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition"
+              className="flex items-center gap-3 px-4 py-3 font-semibold rounded-lg text-blue-700 hover:bg-gray-100 transition"
             >
               <User size={18} />
               Log In
