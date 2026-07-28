@@ -15,7 +15,8 @@ import {
   Tag,
   BarChart3,
   Menu,
-  X
+  X,
+  User
 } from "lucide-react"
 
 export default function Sidebar() {
@@ -48,6 +49,11 @@ export default function Sidebar() {
       name: "Analytics",
       href: "/analytics",
       icon: BarChart3
+    },
+    {
+      name: "Login",
+      href: "/login",
+      icon: User
     }
   ]
 
@@ -148,13 +154,6 @@ export default function Sidebar() {
             })}
 
           </nav>
-
-          <Link href="/login">
-  <button className={`
-                    flex items-center gap-3 px-4 py-3 rounded-lg transition mt-30
-                    "bg-blue-100 text-blue-600 mt-5"
-                  `}>Log In</button>
-</Link>
 
         </div>
 
