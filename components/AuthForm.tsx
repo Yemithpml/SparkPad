@@ -23,6 +23,16 @@ export default function AuthForm() {
     setLoading(false)
   }
 
+  //google
+  const handleGoogleLogin = async () => {
+  await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin,
+    },
+  })
+}
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <form
