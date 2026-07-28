@@ -34,8 +34,8 @@ export default function AuthForm() {
         </h2>
         <p className="text-sm text-gray-500 mb-6">
           {isSignUp
-            ? 'Sign up to start saving your notes.'
-            : 'Log in to access your notes.'}
+            ? 'Sign up to start saving your Thoughts.'
+            : 'Log in to access your Thoughts.'}
         </p>
 
         <div className="space-y-4">
